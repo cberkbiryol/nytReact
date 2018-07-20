@@ -1,0 +1,15 @@
+.jumbotron{
+    background-image: url("https://www.plowzandmowz.com/wp-content/uploads/2016/06/newspaper.jpg");
+    background-color: rgba(219, 251, 253, 0.8);
+    background-repeat: no-repeat;
+    background-blend-mode:color-dodge;
+    background-size:cover;
+    border-radius: 2rem;
+}
+.icon1 {
+    font-size: 8rem;
+    color: orange
+}
+.head1 {
+    font-family: 'Bevan', cursive;    
+}

@@ -1,0 +1,18 @@
+.card{
+    border: 1px solid rgb(66, 66, 66);
+    border-radius: 1em;
+    background-color: rgba(255, 166, 0, 0.671)
+}
+
+.card-img-top {
+    width:25vw;
+    border-radius: 1em;
+}
+
+.card-title {
+    font-family: Kanit, cursive
+}
+
+.card-text {
+    font-family: "Happy Monkey", cursive
+}
