@@ -26,7 +26,8 @@ class Home extends Component {
         byear: "",
         eyear: "",
         username: "",
-        comment: ""
+        comment: "",
+        msg:"No Search Results to Display"
     };
 
     componentDidMount() {
@@ -79,7 +80,17 @@ class Home extends Component {
                 byear: this.state.byear,
                 eyear: this.state.eyear
             })
-                .then(res => this.loadNews(res.data.docs))
+                .then(res => {
+                    console.log(res.data.docs)
+                    if (res.data.docs.length > 0) {
+                        this.loadNews(res.data.docs)
+                    } else {
+                        this.setState({
+                            msg: "Search Returned no results!"
+                        })
+                    }
+
+                })
                 .catch(err => console.log(err));
         }
     };
@@ -91,7 +102,9 @@ class Home extends Component {
             body: news.snippet,
             date: news.pub_date,
             link: news.web_url,
-            image: news.image!=="#" ? `https://www.nytimes.com/${news.image}`:`#`
+            image: news.multimedia.length > 0 
+            ? `https://www.nytimes.com/${news.multimedia[0].url}` 
+            : `${window.location.origin}/img/no-image-available.png`
         }
         API.saveNews(Data)
             .then(res => this.loadSaved())
@@ -146,12 +159,12 @@ class Home extends Component {
                                 {this.state.news.map(news => (
                                     <NewsCard
                                         key={news.web_url}
-                                        author={news.byline.original}
-                                        title={news.headline.main}
+                                        author={news.byline ? news.byline.original : ""}
+                                        title={news.headline ? news.headline.main : "Missing Headline!"}
                                         body={news.snippet}
                                         date={moment(news.pub_date).format("MMMM Do YYYY")}
                                         link={news.web_url}
-                                        image={news.multimedia.length > 0 ? `https://www.nytimes.com/${news.multimedia[0].url}` : `#`}
+                                        image={news.multimedia.length > 0 ? `https://www.nytimes.com/${news.multimedia[0].url}` : `${window.location.origin}/img/no-image-available.png`}
                                     >
                                         <AppBtn
                                             type="save"
@@ -162,7 +175,7 @@ class Home extends Component {
                                 ))}
                             </div>
                         ) : (
-                                <h3 className="text-muted text-center">No Search Results to Display</h3>
+                                <h3 className="text-muted text-center">{this.state.msg}</h3>
                             )
                     }
                 </div>
@@ -182,7 +195,7 @@ class Home extends Component {
                                                 body={news.body}
                                                 date={moment(news.date).format("MMMM Do YYYY")}
                                                 link={news.link}
-                                                image={news.image!=="#" ? `https://www.nytimes.com/${news.image}`:`#`}
+                                                image={news.image}
                                                 comments={news.comments}
                                             >
                                                 <AppBtn
@@ -193,7 +206,6 @@ class Home extends Component {
                                                 <AppBtn
                                                     type="comment"
                                                     btype="primary"
-                                                    //onClick={() => this.commentInput(news._id)}
                                                     onClick={() => this.toggle(i)}
                                                 />
                                             </NewsCard>

@@ -7,7 +7,7 @@ const NewsCard = (props) => {
     if (!props.saved) {
         return (
             <div className="card flex-row flex-md-nowrap flex-wrap my-3">
-                <div className="card-header">
+                <div className="card-header flex-fill">
                     <img className="card-img-top" src={props.image} alt={props.title} />
                 </div>
                 <div className="card-body">
@@ -18,7 +18,7 @@ const NewsCard = (props) => {
                     <p className="card-text text-muted">{props.date}</p>
                     <p className="card-text">{props.body}</p>
                 </div>
-                <div className="card-footer">
+                <div className="card-footer flex-fill">
                     {props.children}
                 </div>
             </div>
